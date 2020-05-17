@@ -35,6 +35,7 @@ class _NoticeCreateState extends State<NoticeCreate> {
 
     if(widget.notice != null){
       _noticeStore.subjects = widget.notice.subjects;
+      _noticeStore.editNotice = widget.notice;
     }
     if(widget.notice == null){
       _noticeStore.subjects = "";
@@ -96,7 +97,9 @@ class _NoticeCreateState extends State<NoticeCreate> {
                 ),
                 color: Theme.of(context).primaryColor,
                 disabledColor: Color.fromARGB(100, 0, 0, 102),
-                onPressed: _noticeStore.subjectPressed
+                onPressed: _noticeStore.editNotice != null 
+                  ? _noticeStore.subjectPressedEdit 
+                  : _noticeStore.subjectPressed
               );
             })
           ],

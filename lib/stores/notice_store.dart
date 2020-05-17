@@ -1,6 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:notices/models/notice_model.dart';
 import 'package:notices/repositores/notices_api.dart';
+import 'package:notices/utils/api_response.dart';
 part 'notice_store.g.dart';
 
 class NoticeStore = _NoticeStoreBase with _$NoticeStore;
@@ -10,13 +11,17 @@ abstract class _NoticeStoreBase with Store {
   @observable
   String subjects = "";
   @observable
-  bool loggedIn = false;
+  bool createdIn = false;
   @observable
   bool loading = false;
   @observable
   bool msgError = false;
   @observable
   List<NoticeModel> notices;
+  @observable
+  ApiResponse<NoticeModel> notice;
+  @observable
+  NoticeModel editNotice;
 
   @action
   void setSubjects(String value) { 
@@ -33,9 +38,30 @@ abstract class _NoticeStoreBase with Store {
   Future<void> createNotice() async {
     loading = true;
 
-    await Future.delayed(Duration(seconds: 3));
+    notice = await NoticesApi.createNotice(subjects);
 
-    loading = false;
+    if(notice.ok){
+      loading = false;
+      createdIn = true;
+    } else {
+      loading = false;
+      createdIn = false;
+    }
+  }
+
+  @action
+  Future<void> updateNotice() async {
+    loading = true;
+
+    notice = await NoticesApi.editNotice(editNotice, subjects);
+
+    if(notice.ok){
+      loading = false;
+      createdIn = true;
+    } else {
+      loading = false;
+      createdIn = false;
+    }
   }
 
   @computed
@@ -49,5 +75,8 @@ abstract class _NoticeStoreBase with Store {
 
   @computed
   Function get subjectPressed => isSubjectsValid && !loading ? createNotice : null;
+
+  @computed
+  Function get subjectPressedEdit => isSubjectsValid && !loading ? updateNotice : null;
   
 }

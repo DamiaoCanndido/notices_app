@@ -30,6 +30,13 @@ mixin _$NoticeStore on _NoticeStoreBase, Store {
           Computed<Function>(() => super.subjectPressed,
               name: '_NoticeStoreBase.subjectPressed'))
       .value;
+  Computed<Function> _$subjectPressedEditComputed;
+
+  @override
+  Function get subjectPressedEdit => (_$subjectPressedEditComputed ??=
+          Computed<Function>(() => super.subjectPressedEdit,
+              name: '_NoticeStoreBase.subjectPressedEdit'))
+      .value;
 
   final _$subjectsAtom = Atom(name: '_NoticeStoreBase.subjects');
 
@@ -46,18 +53,18 @@ mixin _$NoticeStore on _NoticeStoreBase, Store {
     });
   }
 
-  final _$loggedInAtom = Atom(name: '_NoticeStoreBase.loggedIn');
+  final _$createdInAtom = Atom(name: '_NoticeStoreBase.createdIn');
 
   @override
-  bool get loggedIn {
-    _$loggedInAtom.reportRead();
-    return super.loggedIn;
+  bool get createdIn {
+    _$createdInAtom.reportRead();
+    return super.createdIn;
   }
 
   @override
-  set loggedIn(bool value) {
-    _$loggedInAtom.reportWrite(value, super.loggedIn, () {
-      super.loggedIn = value;
+  set createdIn(bool value) {
+    _$createdInAtom.reportWrite(value, super.createdIn, () {
+      super.createdIn = value;
     });
   }
 
@@ -106,6 +113,36 @@ mixin _$NoticeStore on _NoticeStoreBase, Store {
     });
   }
 
+  final _$noticeAtom = Atom(name: '_NoticeStoreBase.notice');
+
+  @override
+  ApiResponse<NoticeModel> get notice {
+    _$noticeAtom.reportRead();
+    return super.notice;
+  }
+
+  @override
+  set notice(ApiResponse<NoticeModel> value) {
+    _$noticeAtom.reportWrite(value, super.notice, () {
+      super.notice = value;
+    });
+  }
+
+  final _$editNoticeAtom = Atom(name: '_NoticeStoreBase.editNotice');
+
+  @override
+  NoticeModel get editNotice {
+    _$editNoticeAtom.reportRead();
+    return super.editNotice;
+  }
+
+  @override
+  set editNotice(NoticeModel value) {
+    _$editNoticeAtom.reportWrite(value, super.editNotice, () {
+      super.editNotice = value;
+    });
+  }
+
   final _$getNoticeAsyncAction = AsyncAction('_NoticeStoreBase.getNotice');
 
   @override
@@ -119,6 +156,14 @@ mixin _$NoticeStore on _NoticeStoreBase, Store {
   @override
   Future<void> createNotice() {
     return _$createNoticeAsyncAction.run(() => super.createNotice());
+  }
+
+  final _$updateNoticeAsyncAction =
+      AsyncAction('_NoticeStoreBase.updateNotice');
+
+  @override
+  Future<void> updateNotice() {
+    return _$updateNoticeAsyncAction.run(() => super.updateNotice());
   }
 
   final _$_NoticeStoreBaseActionController =
@@ -139,13 +184,16 @@ mixin _$NoticeStore on _NoticeStoreBase, Store {
   String toString() {
     return '''
 subjects: ${subjects},
-loggedIn: ${loggedIn},
+createdIn: ${createdIn},
 loading: ${loading},
 msgError: ${msgError},
 notices: ${notices},
+notice: ${notice},
+editNotice: ${editNotice},
 isSubjectsValid: ${isSubjectsValid},
 errorSubjects: ${errorSubjects},
-subjectPressed: ${subjectPressed}
+subjectPressed: ${subjectPressed},
+subjectPressedEdit: ${subjectPressedEdit}
     ''';
   }
 }
