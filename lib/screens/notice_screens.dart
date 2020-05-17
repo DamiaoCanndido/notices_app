@@ -31,7 +31,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
         _noticeStore.getNotice();
         // resetando a criação/edição
         _noticeStore.createdIn = false;
-        Navigator.pop(context);
+        // Navigator.pop(context);
       }
     });
   }

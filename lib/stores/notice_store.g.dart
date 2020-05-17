@@ -166,6 +166,14 @@ mixin _$NoticeStore on _NoticeStoreBase, Store {
     return _$updateNoticeAsyncAction.run(() => super.updateNotice());
   }
 
+  final _$deleteNoticeAsyncAction =
+      AsyncAction('_NoticeStoreBase.deleteNotice');
+
+  @override
+  Future<void> deleteNotice(NoticeModel notice) {
+    return _$deleteNoticeAsyncAction.run(() => super.deleteNotice(notice));
+  }
+
   final _$_NoticeStoreBaseActionController =
       ActionController(name: '_NoticeStoreBase');
 

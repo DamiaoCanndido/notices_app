@@ -64,6 +64,14 @@ abstract class _NoticeStoreBase with Store {
     }
   }
 
+  @action
+  Future<void> deleteNotice(NoticeModel notice) async {
+    ApiResponse<bool> noticeD =  await NoticesApi.deleteNotice(notice);
+    if(noticeD.ok){
+      createdIn = true;
+    }
+  }
+
   @computed
   bool get isSubjectsValid => subjects.trim().length >= 3;
 

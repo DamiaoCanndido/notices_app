@@ -98,7 +98,7 @@ class _NoticeCreateState extends State<NoticeCreate> {
                 color: Theme.of(context).primaryColor,
                 disabledColor: Color.fromARGB(100, 0, 0, 102),
                 onPressed: _noticeStore.editNotice != null 
-                  ? _noticeStore.subjectPressedEdit 
+                  ? _noticeStore.subjectPressedEdit
                   : _noticeStore.subjectPressed
               );
             })
@@ -106,5 +106,10 @@ class _NoticeCreateState extends State<NoticeCreate> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

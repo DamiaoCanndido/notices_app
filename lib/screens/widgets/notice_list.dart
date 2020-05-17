@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notices/common/req_alert.dart';
 import 'package:notices/models/notice_model.dart';
 import 'package:notices/screens/notice_create.dart';
 import 'package:notices/stores/notice_store.dart';
@@ -18,6 +19,10 @@ class NoticeList extends StatelessWidget {
       itemBuilder: (context, index){
 
         NoticeModel n = notices[index];
+
+        void delete() async {
+          await Provider.of<NoticeStore>(context, listen: false).deleteNotice(n);
+        }
 
         return ListTile(
           leading: Text(
@@ -43,6 +48,9 @@ class NoticeList extends StatelessWidget {
                 builder: (context) => NoticeCreate(notice: n),
               )
             );
+          },
+          onLongPress: (){
+            alert(context, "Deseja realmente excluir o ofício ${n.number.toString()}", callback: delete);
           },
         );
       }

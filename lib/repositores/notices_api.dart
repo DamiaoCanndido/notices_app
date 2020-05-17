@@ -64,4 +64,19 @@ class NoticesApi {
     }
     return null;
   }
+
+  static Future<ApiResponse<bool>> deleteNotice(NoticeModel notice) async {
+    String url = "${Constrains.baseURL}/delete/${notice.id}";
+    Dio dio = Dio();
+
+    try {
+      await dio.delete(url);
+      return ApiResponse.ok(true);
+    } on DioError catch(e){
+      if(e.response.statusCode == 404){
+        return e.response.data["error"];
+      }
+    }
+    return ApiResponse.error("");
+  }
 }
