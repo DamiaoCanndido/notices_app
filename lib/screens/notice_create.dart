@@ -97,7 +97,7 @@ class _NoticeCreateState extends State<NoticeCreate> {
                 ),
                 color: Theme.of(context).primaryColor,
                 disabledColor: Color.fromARGB(100, 0, 0, 102),
-                onPressed: _noticeStore.editNotice != null 
+                onPressed: widget.notice != null 
                   ? _noticeStore.subjectPressedEdit
                   : _noticeStore.subjectPressed
               );

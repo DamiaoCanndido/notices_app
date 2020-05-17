@@ -17,7 +17,8 @@ class _NoticeScreenState extends State<NoticeScreen> {
   NoticeStore _noticeStore;
   List<NoticeModel> notices;
 
-  ReactionDisposer disposer;
+  ReactionDisposer storeDisposer;
+  ReactionDisposer deleteDisposer;
 
   @override
   void didChangeDependencies() {
@@ -25,13 +26,21 @@ class _NoticeScreenState extends State<NoticeScreen> {
     _noticeStore = Provider.of<NoticeStore>(context);
     _noticeStore.getNotice();
 
-    disposer = reaction((_) => _noticeStore.createdIn, 
+    storeDisposer = reaction((_) => _noticeStore.createdIn, 
     (createdIn){
       if(_noticeStore.createdIn){
         _noticeStore.getNotice();
         // resetando a criação/edição
         _noticeStore.createdIn = false;
-        // Navigator.pop(context);
+        Navigator.pop(context);
+      }
+    });
+    deleteDisposer = reaction((_) => _noticeStore.deleteIn, 
+    (deleteIn){
+      if(_noticeStore.deleteIn){
+        _noticeStore.getNotice();
+        // resetando a exclusão
+        _noticeStore.deleteIn = false;
       }
     });
   }
@@ -53,6 +62,9 @@ class _NoticeScreenState extends State<NoticeScreen> {
                         fontSize: 25
                       ),
                     ),
+                    SizedBox(
+                      height: 16,
+                    ),
                     _noticeStore.notices != null
                     ? Text(
                       _noticeStore.notices[0].number.toString(),
@@ -60,8 +72,10 @@ class _NoticeScreenState extends State<NoticeScreen> {
                         fontSize: 60
                       ),
                     )  
-                    : CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    : Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
                     )
                   ],
                 );
@@ -86,8 +100,10 @@ class _NoticeScreenState extends State<NoticeScreen> {
                     Observer(builder: (_){
                       return _noticeStore.notices != null 
                       ? NoticeList()
-                      : Center(child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                      : Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor
+                        ),
                       ));
                     })
                   ],
@@ -114,7 +130,8 @@ class _NoticeScreenState extends State<NoticeScreen> {
   }
   @override
   void dispose() {
-    disposer();
+    storeDisposer();
+    deleteDisposer();
     super.dispose();
   }
 }

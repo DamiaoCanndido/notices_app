@@ -13,6 +13,8 @@ abstract class _NoticeStoreBase with Store {
   @observable
   bool createdIn = false;
   @observable
+  bool deleteIn = false;
+  @observable
   bool loading = false;
   @observable
   bool msgError = false;
@@ -68,7 +70,7 @@ abstract class _NoticeStoreBase with Store {
   Future<void> deleteNotice(NoticeModel notice) async {
     ApiResponse<bool> noticeD =  await NoticesApi.deleteNotice(notice);
     if(noticeD.ok){
-      createdIn = true;
+      deleteIn = true;
     }
   }
 

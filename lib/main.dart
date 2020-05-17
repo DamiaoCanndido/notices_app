@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Color(0xFF000066),
+          backgroundColor: Colors.white,
           fontFamily: "Comic Neue",
           textTheme: TextTheme(
             bodyText2: TextStyle(

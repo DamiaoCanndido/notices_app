@@ -68,6 +68,21 @@ mixin _$NoticeStore on _NoticeStoreBase, Store {
     });
   }
 
+  final _$deleteInAtom = Atom(name: '_NoticeStoreBase.deleteIn');
+
+  @override
+  bool get deleteIn {
+    _$deleteInAtom.reportRead();
+    return super.deleteIn;
+  }
+
+  @override
+  set deleteIn(bool value) {
+    _$deleteInAtom.reportWrite(value, super.deleteIn, () {
+      super.deleteIn = value;
+    });
+  }
+
   final _$loadingAtom = Atom(name: '_NoticeStoreBase.loading');
 
   @override
@@ -193,6 +208,7 @@ mixin _$NoticeStore on _NoticeStoreBase, Store {
     return '''
 subjects: ${subjects},
 createdIn: ${createdIn},
+deleteIn: ${deleteIn},
 loading: ${loading},
 msgError: ${msgError},
 notices: ${notices},
