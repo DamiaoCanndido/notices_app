@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:notices/common/req_alert.dart';
 import 'package:notices/models/notice_model.dart';
 import 'package:notices/screens/notice_create.dart';
 import 'package:notices/stores/notice_store.dart';
+import 'package:notices/utils/date_formatter.dart';
 import 'package:provider/provider.dart';
 
 class NoticeList extends StatelessWidget {
@@ -38,7 +40,7 @@ class NoticeList extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           trailing: Text( 
-            n.createdAt,
+            DateFormatter.format(n.createdAt),
             style: TextStyle(color: Theme.of(context).primaryColor),
           ),
           onTap: (){

@@ -67,7 +67,8 @@ class _NoticeScreenState extends State<NoticeScreen> {
                     ),
                     _noticeStore.notices != null
                     ? Text(
-                      _noticeStore.notices[0].number.toString(),
+                     _noticeStore.notices.length > 0 
+                     ? _noticeStore.notices[0].number.toString() : "",
                       style: TextStyle(
                         fontSize: 60
                       ),

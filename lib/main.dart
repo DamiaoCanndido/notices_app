@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:notices/screens/notice_screens.dart';
 import 'package:notices/stores/notice_store.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,13 @@ class MyApp extends StatelessWidget {
           ),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale('pt', 'BR')
+        ],
         home: NoticeScreen(),
       ),
     );
