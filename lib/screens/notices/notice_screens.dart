@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
+import 'package:notices/common/custom_drawer/custom_drawer.dart';
 import 'package:notices/models/notice_model.dart';
 import 'package:notices/screens/notices/notice_create.dart';
 import 'package:notices/screens/notices/widgets/notice_list.dart';
@@ -118,7 +119,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
           )
         ],
       ),
-      drawer: Drawer(),
+      drawer: CustomDrawer(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blueAccent,
         child: Icon(Icons.add),

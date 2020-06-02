@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notices/common/custom_drawer/widgets/list_section.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -6,7 +7,7 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: <Widget>[
-          Divider(color: Colors.black)
+          ListSection()
         ],
       ),
     );
