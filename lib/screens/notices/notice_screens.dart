@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:notices/models/notice_model.dart';
-import 'package:notices/screens/notice_create.dart';
-import 'package:notices/screens/widgets/notice_list.dart';
+import 'package:notices/screens/notices/notice_create.dart';
+import 'package:notices/screens/notices/widgets/notice_list.dart';
 import 'package:notices/stores/notice_store.dart';
 import 'package:provider/provider.dart';
 
@@ -48,6 +48,10 @@ class _NoticeScreenState extends State<NoticeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Ofícios"),
+        elevation: 0,
+      ),
       body: Stack(
         children: <Widget>[
           Container(
@@ -114,7 +118,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
           )
         ],
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      drawer: Drawer(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blueAccent,
         child: Icon(Icons.add),

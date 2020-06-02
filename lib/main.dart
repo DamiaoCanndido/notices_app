@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:notices/screens/notice_screens.dart';
+import 'package:notices/screens/base/base_screen.dart';
+import 'package:notices/stores/drawer_store.dart';
 import 'package:notices/stores/notice_store.dart';
 import 'package:provider/provider.dart';
 
@@ -13,13 +14,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<DrawerStore>(
+          create: (_) => DrawerStore(),
+        ),
         Provider<NoticeStore>(
           create: (_) => NoticeStore(),
-        )
+        ),
       ],
       child: MaterialApp(
         title: 'Notices',
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: true,
         theme: ThemeData(
           primaryColor: Color(0xFF000066),
           backgroundColor: Colors.white,
@@ -38,7 +42,7 @@ class MyApp extends StatelessWidget {
         supportedLocales: [
           Locale('pt', 'BR')
         ],
-        home: NoticeScreen(),
+        home: BaseScreen(),
       ),
     );
   }
