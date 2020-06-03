@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:notices/api/api_url.dart';
-
 import 'package:notices/models/notice_model.dart';
 import 'package:notices/utils/api_response.dart';
 

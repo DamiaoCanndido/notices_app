@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:notices/screens/base/base_screen.dart';
 import 'package:notices/stores/drawer_store.dart';
 import 'package:notices/stores/notice_store.dart';
+import 'package:notices/stores/reminder_store.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider<NoticeStore>(
           create: (_) => NoticeStore(),
+        ),
+        Provider<ReminderStore>(
+          create: (_) => ReminderStore(),
         ),
       ],
       child: MaterialApp(

@@ -4,6 +4,8 @@ class DateFormatter {
   static String format(String date){
     DateTime nDate = DateTime.parse(date).toUtc();
 
+    print(nDate);
+
     int timex = nDate.toUtc().millisecondsSinceEpoch;
     DateTime newDate = DateTime.fromMillisecondsSinceEpoch(timex);
 
