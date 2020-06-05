@@ -12,6 +12,8 @@ abstract class _ReminderStoreBase with Store {
   List<ReminderModel> reminders;
   @observable
   ApiResponse<ReminderModel> reminderModel;
+  @observable
+  bool loading = false;
 
   @action
   Future<void> getReminders() async {
@@ -21,8 +23,12 @@ abstract class _ReminderStoreBase with Store {
 
   @action
   Future<void> doneReminders(ReminderModel reminder) async {
+
+    loading = true;
     
     reminderModel = await RemindersApi.doneReminder(reminder);
+
+    loading = false;
 
   }
 

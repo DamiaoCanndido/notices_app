@@ -39,6 +39,21 @@ mixin _$ReminderStore on _ReminderStoreBase, Store {
     });
   }
 
+  final _$loadingAtom = Atom(name: '_ReminderStoreBase.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
   final _$getRemindersAsyncAction =
       AsyncAction('_ReminderStoreBase.getReminders');
 
@@ -59,7 +74,8 @@ mixin _$ReminderStore on _ReminderStoreBase, Store {
   String toString() {
     return '''
 reminders: ${reminders},
-reminderModel: ${reminderModel}
+reminderModel: ${reminderModel},
+loading: ${loading}
     ''';
   }
 }

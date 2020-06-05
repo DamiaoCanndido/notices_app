@@ -14,4 +14,21 @@ class DateFormatter {
 
     return "$cDate $cHour";
   }
+
+  static String timeLeft(String date) {
+    DateTime nDate = DateTime.parse(date).toUtc();
+    DateTime now = DateTime.now();
+
+    int timeL = nDate.toUtc().millisecondsSinceEpoch;
+
+    int nowN = now.toUtc().millisecondsSinceEpoch;
+
+    int timeLeftOver = timeL - nowN;
+
+    if(timeLeftOver < 0){
+      return "Atraso de $timeLeftOver";
+    }
+
+    return "Faltam $timeLeftOver";
+  }
 }

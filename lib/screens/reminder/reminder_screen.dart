@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:notices/common/custom_drawer/custom_drawer.dart';
 import 'package:notices/models/reminder_model.dart';
 import 'package:notices/stores/reminder_store.dart';
@@ -15,6 +16,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
 
   ReminderStore _reminderStore;
   List<ReminderModel> reminder;
+  ReactionDisposer disposer;
 
   @override
   void didChangeDependencies() {
@@ -22,6 +24,15 @@ class _ReminderScreenState extends State<ReminderScreen> {
     _reminderStore = Provider.of<ReminderStore>(context);
     _reminderStore.getReminders();
     reminder = _reminderStore.reminders;
+
+    disposer = reaction((_) => _reminderStore.loading, 
+      (loading){
+        if(_reminderStore.loading){
+          _reminderStore.getReminders();
+          _reminderStore.loading = false;
+        }
+      }
+    );
   }
 
   @override
@@ -80,7 +91,6 @@ class _ReminderScreenState extends State<ReminderScreen> {
                             FlatButton(
                               onPressed: (){
                                 _reminderStore.doneReminders(_reminderStore.reminders[index]);
-                                _reminderStore.getReminders();
                               }, 
                               child: _reminderStore.reminders[index].done 
                               ? Text(
@@ -105,7 +115,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
                       child: Container(
                         alignment: Alignment.center,
                         child: Text(
-                          DateFormatter.format(_reminderStore.reminders[index].deadline)
+                          DateFormatter.timeLeft(_reminderStore.reminders[index].deadline)
                         ),
                       )
                     )
