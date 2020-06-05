@@ -24,6 +24,21 @@ mixin _$ReminderStore on _ReminderStoreBase, Store {
     });
   }
 
+  final _$reminderModelAtom = Atom(name: '_ReminderStoreBase.reminderModel');
+
+  @override
+  ApiResponse<ReminderModel> get reminderModel {
+    _$reminderModelAtom.reportRead();
+    return super.reminderModel;
+  }
+
+  @override
+  set reminderModel(ApiResponse<ReminderModel> value) {
+    _$reminderModelAtom.reportWrite(value, super.reminderModel, () {
+      super.reminderModel = value;
+    });
+  }
+
   final _$getRemindersAsyncAction =
       AsyncAction('_ReminderStoreBase.getReminders');
 
@@ -32,10 +47,19 @@ mixin _$ReminderStore on _ReminderStoreBase, Store {
     return _$getRemindersAsyncAction.run(() => super.getReminders());
   }
 
+  final _$doneRemindersAsyncAction =
+      AsyncAction('_ReminderStoreBase.doneReminders');
+
+  @override
+  Future<void> doneReminders(ReminderModel reminder) {
+    return _$doneRemindersAsyncAction.run(() => super.doneReminders(reminder));
+  }
+
   @override
   String toString() {
     return '''
-reminders: ${reminders}
+reminders: ${reminders},
+reminderModel: ${reminderModel}
     ''';
   }
 }

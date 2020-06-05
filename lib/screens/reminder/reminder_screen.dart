@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
 import 'package:notices/common/custom_drawer/custom_drawer.dart';
+import 'package:notices/models/reminder_model.dart';
 import 'package:notices/stores/reminder_store.dart';
 import 'package:notices/utils/date_formatter.dart';
 import 'package:provider/provider.dart';
@@ -13,30 +13,15 @@ class ReminderScreen extends StatefulWidget {
 
 class _ReminderScreenState extends State<ReminderScreen> {
 
-  List<Map<String, dynamic>> list = [
-    {
-      "done": false,
-      "_id": "5ed62f1039d49b27140ccb0f",
-      "number": 20,
-      "subjects": "Comer puta",
-      "deadline": "2020-06-05T12:00:00.000Z",
-    },
-    {
-      "done": true,
-      "_id": "5ed549bb6bd0171d707b86df",
-      "number": 30,
-      "subjects": "Testando...",
-      "deadline": "2020-06-10T16:00:00.000Z",
-    }
-  ];
-
   ReminderStore _reminderStore;
+  List<ReminderModel> reminder;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _reminderStore = Provider.of<ReminderStore>(context);
     _reminderStore.getReminders();
+    reminder = _reminderStore.reminders;
   }
 
   @override
@@ -92,8 +77,13 @@ class _ReminderScreenState extends State<ReminderScreen> {
                                 ),
                               ),
                             ),
-                            Checkbox(
-                              value: _reminderStore.reminders[index].done, onChanged: null
+                            FlatButton(
+                              onPressed: (){
+                                _reminderStore.doneReminders(_reminderStore.reminders[index]);
+                              }, 
+                              child: _reminderStore.reminders[index].done 
+                              ? Text("OK")
+                              : Text("NÃO OK")
                             )
                           ],
                         ),
