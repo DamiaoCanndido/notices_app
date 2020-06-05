@@ -21,7 +21,9 @@ abstract class _ReminderStoreBase with Store {
 
   @action
   Future<void> doneReminders(ReminderModel reminder) async {
+    
     reminderModel = await RemindersApi.doneReminder(reminder);
+
   }
 
 }

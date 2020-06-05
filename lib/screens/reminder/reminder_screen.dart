@@ -42,8 +42,8 @@ class _ReminderScreenState extends State<ReminderScreen> {
                 height: 100,
                 decoration: BoxDecoration(
                   color: _reminderStore.reminders[index].done 
-                  ? Colors.green[300]
-                  : Colors.red[300] 
+                  ? Colors.green
+                  : Colors.red
                 ),
                 child: Column(
                   children: <Widget>[
@@ -80,10 +80,21 @@ class _ReminderScreenState extends State<ReminderScreen> {
                             FlatButton(
                               onPressed: (){
                                 _reminderStore.doneReminders(_reminderStore.reminders[index]);
+                                _reminderStore.getReminders();
                               }, 
                               child: _reminderStore.reminders[index].done 
-                              ? Text("OK")
-                              : Text("NÃO OK")
+                              ? Text(
+                                "OK",
+                                style: TextStyle(
+                                  color: Colors.white
+                                ),
+                              )
+                              : Text(
+                                "NÃO OK",
+                                style: TextStyle(
+                                  color: Colors.white
+                                ),
+                              )
                             )
                           ],
                         ),
