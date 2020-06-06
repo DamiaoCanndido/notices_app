@@ -25,11 +25,11 @@ class _ReminderScreenState extends State<ReminderScreen> {
     _reminderStore.getReminders();
     reminder = _reminderStore.reminders;
 
-    disposer = reaction((_) => _reminderStore.loading, 
-      (loading){
-        if(_reminderStore.loading){
+    disposer = reaction((_) => _reminderStore.doneIn, 
+      (doneIn){
+        if(_reminderStore.doneIn){
           _reminderStore.getReminders();
-          _reminderStore.loading = false;
+          _reminderStore.doneIn = false;
         }
       }
     );
@@ -88,7 +88,8 @@ class _ReminderScreenState extends State<ReminderScreen> {
                                 ),
                               ),
                             ),
-                            FlatButton(
+                            !_reminderStore.loading 
+                            ? FlatButton(
                               onPressed: (){
                                 _reminderStore.doneReminders(_reminderStore.reminders[index]);
                               }, 
@@ -105,7 +106,8 @@ class _ReminderScreenState extends State<ReminderScreen> {
                                   color: Colors.white
                                 ),
                               )
-                            )
+                            ) 
+                            : Center(child: CircularProgressIndicator())
                           ],
                         ),
                       ),

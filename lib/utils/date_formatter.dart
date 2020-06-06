@@ -24,11 +24,74 @@ class DateFormatter {
     int nowN = now.toUtc().millisecondsSinceEpoch;
 
     int timeLeftOver = timeL - nowN;
+    print(timeLeftOver);
+
+    double timeX;
 
     if(timeLeftOver < 0){
-      return "Atraso de $timeLeftOver";
+      if(timeLeftOver.abs() >= 2592000000){
+        timeX = timeLeftOver / 2592000000;
+        print(timeX.round());
+
+        return "Atraso de ${timeX.round().abs()} meses";
+      }
+      if(timeLeftOver.abs() >= 604800000){
+        timeX = timeLeftOver / 604800000;
+        print(timeX.round());
+
+        return "Atraso de ${timeX.round().abs()} semanas";
+      }
+      if(timeLeftOver.abs() >= 86400000){
+        timeX = timeLeftOver / 86400000;
+        print(timeX.round());
+
+        return "Atraso de ${timeX.round().abs()} dias";
+      }
+      if(timeLeftOver.abs() >= 3600000){
+        timeX = timeLeftOver / 3600000;
+        print(timeX.round());
+
+        return "Atraso de ${timeX.round().abs()} horas";
+      }
+      if(timeLeftOver.abs() >= 60000){
+        timeX = timeLeftOver / 60000;
+        print(timeX.round());
+
+        return "Atraso de ${timeX.round().abs()} minutos";
+      }
     }
 
-    return "Faltam $timeLeftOver";
+    if(timeLeftOver > 0){
+      if(timeLeftOver >= 2592000000){
+        timeX = timeLeftOver / 2592000000;
+        print(timeX.round());
+
+        return "Faltam ${timeX.round()} meses";
+      }
+      if(timeLeftOver >= 604800000){
+        timeX = timeLeftOver / 604800000;
+        print(timeX.round());
+
+        return "Faltam ${timeX.round()} semanas";
+      }
+      if(timeLeftOver >= 86400000){
+        timeX = timeLeftOver / 86400000;
+        print(timeX.round());
+
+        return "Faltam ${timeX.round()} dias";
+      }
+      if(timeLeftOver >= 3600000){
+        timeX = timeLeftOver / 3600000;
+        print(timeX.round());
+
+        return "Faltam ${timeX.round()} horas";
+      }
+      if(timeLeftOver >= 60000){
+        timeX = timeLeftOver / 60000;
+        print(timeX.round());
+
+        return "Faltam ${timeX.round()} minutos";
+      }
+    }
   }
 }
