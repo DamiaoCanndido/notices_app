@@ -36,4 +36,19 @@ class RemindersApi {
     }
     return null;
   }
+
+  static Future<ApiResponse<bool>> deleteReminder(ReminderModel reminder) async {
+    String url = "${ApiUrl.baseURL}/reminder/${reminder.id}";
+    Dio dio = Dio();
+
+    try {
+      await dio.delete(url);
+      return ApiResponse.ok(true);
+    } on DioError catch(e){
+      if(e.response.statusCode == 404){
+        return e.response.data["error"];
+      }
+    }
+    return ApiResponse.error("");
+  }
 }

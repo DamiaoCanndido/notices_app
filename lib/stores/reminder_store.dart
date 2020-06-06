@@ -16,6 +16,8 @@ abstract class _ReminderStoreBase with Store {
   bool loading = false;
   @observable
   bool doneIn = false;
+  @observable
+  bool deleteIn = false;
 
   @action
   Future<void> getReminders() async {
@@ -25,7 +27,6 @@ abstract class _ReminderStoreBase with Store {
 
   @action
   Future<void> doneReminders(ReminderModel reminder) async {
-
     loading = true;
     
     reminderModel = await RemindersApi.doneReminder(reminder);
@@ -36,7 +37,14 @@ abstract class _ReminderStoreBase with Store {
     } else {
       doneIn = false;
     }
+  }
 
+  @action
+  Future<void> deleteReminder(ReminderModel reminder) async {
+    ApiResponse<bool> reminderD =  await RemindersApi.deleteReminder(reminder);
+    if(reminderD.ok){
+      deleteIn = true;
+    }
   }
 
 }

@@ -69,6 +69,21 @@ mixin _$ReminderStore on _ReminderStoreBase, Store {
     });
   }
 
+  final _$deleteInAtom = Atom(name: '_ReminderStoreBase.deleteIn');
+
+  @override
+  bool get deleteIn {
+    _$deleteInAtom.reportRead();
+    return super.deleteIn;
+  }
+
+  @override
+  set deleteIn(bool value) {
+    _$deleteInAtom.reportWrite(value, super.deleteIn, () {
+      super.deleteIn = value;
+    });
+  }
+
   final _$getRemindersAsyncAction =
       AsyncAction('_ReminderStoreBase.getReminders');
 
@@ -85,13 +100,23 @@ mixin _$ReminderStore on _ReminderStoreBase, Store {
     return _$doneRemindersAsyncAction.run(() => super.doneReminders(reminder));
   }
 
+  final _$deleteReminderAsyncAction =
+      AsyncAction('_ReminderStoreBase.deleteReminder');
+
+  @override
+  Future<void> deleteReminder(ReminderModel reminder) {
+    return _$deleteReminderAsyncAction
+        .run(() => super.deleteReminder(reminder));
+  }
+
   @override
   String toString() {
     return '''
 reminders: ${reminders},
 reminderModel: ${reminderModel},
 loading: ${loading},
-doneIn: ${doneIn}
+doneIn: ${doneIn},
+deleteIn: ${deleteIn}
     ''';
   }
 }

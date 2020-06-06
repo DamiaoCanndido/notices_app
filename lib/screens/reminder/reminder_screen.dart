@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:notices/common/custom_drawer/custom_drawer.dart';
+import 'package:notices/common/req_alert.dart';
 import 'package:notices/models/reminder_model.dart';
 import 'package:notices/stores/reminder_store.dart';
 import 'package:notices/utils/date_formatter.dart';
@@ -17,6 +18,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
   ReminderStore _reminderStore;
   List<ReminderModel> reminder;
   ReactionDisposer disposer;
+  ReactionDisposer deleteDisposer;
 
   @override
   void didChangeDependencies() {
@@ -33,6 +35,15 @@ class _ReminderScreenState extends State<ReminderScreen> {
         }
       }
     );
+
+    deleteDisposer = reaction((_) => _reminderStore.deleteIn, 
+    (deleteIn){
+      if(_reminderStore.deleteIn){
+        _reminderStore.getReminders();
+        // resetando a exclusão
+        _reminderStore.deleteIn = false;
+      }
+    });
   }
 
   @override
@@ -48,80 +59,95 @@ class _ReminderScreenState extends State<ReminderScreen> {
           physics: BouncingScrollPhysics(),
           itemCount: _reminderStore.reminders.length,
           itemBuilder: (context, index){
+
+            void delete() async {
+              await Provider.of<ReminderStore>(context, listen: false)
+                .deleteReminder(_reminderStore.reminders[index]);
+            }
+
             return Card(
-              child: Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  color: _reminderStore.reminders[index].done 
-                  ? Colors.green
-                  : Colors.red
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                child: Text(
-                                  _reminderStore.reminders[index].number.toString(),
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold
+              child: InkWell(
+                onLongPress: (){
+                  alert(context, "Deseja deletar essa tarefa?", callback: delete);
+                },
+                child: Container(
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: _reminderStore.reminders[index].done 
+                    ? Colors.green
+                    : Colors.red
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  child: Text(
+                                    _reminderStore.reminders[index].number.toString(),
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Container(
-                                child: Text(
-                                  _reminderStore.reminders[index].subjects,
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold
+                              Expanded(
+                                flex: 4,
+                                child: Container(
+                                  child: Text(
+                                    _reminderStore.reminders[index].subjects,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            !_reminderStore.loading 
-                            ? FlatButton(
-                              onPressed: (){
-                                _reminderStore.doneReminders(_reminderStore.reminders[index]);
-                              }, 
-                              child: _reminderStore.reminders[index].done 
-                              ? Text(
-                                "OK",
-                                style: TextStyle(
-                                  color: Colors.white
-                                ),
-                              )
-                              : Text(
-                                "NÃO OK",
-                                style: TextStyle(
-                                  color: Colors.white
-                                ),
-                              )
-                            ) 
-                            : Center(child: CircularProgressIndicator())
-                          ],
+                              !_reminderStore.loading 
+                              ? RaisedButton(
+                                color: Colors.white,
+                                onPressed: (){
+                                  _reminderStore.doneReminders(_reminderStore.reminders[index]);
+                                }, 
+                                child: _reminderStore.reminders[index].done 
+                                ? Text(
+                                  "OK",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20
+                                  ),
+                                )
+                                : Text(
+                                  "NÃO OK",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              ) 
+                              : Center(child: CircularProgressIndicator())
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          DateFormatter.timeLeft(_reminderStore.reminders[index].deadline)
-                        ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            DateFormatter.timeLeft(_reminderStore.reminders[index].deadline)
+                          ),
+                        )
                       )
-                    )
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
@@ -131,5 +157,12 @@ class _ReminderScreenState extends State<ReminderScreen> {
       }),
       drawer: CustomDrawer(),
     );
+  }
+
+  @override
+  void dispose() {
+    disposer();
+    deleteDisposer();
+    super.dispose();
   }
 }
