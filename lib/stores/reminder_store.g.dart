@@ -51,6 +51,13 @@ mixin _$ReminderStore on _ReminderStoreBase, Store {
       (_$errorDeadlineComputed ??= Computed<String>(() => super.errorDeadline,
               name: '_ReminderStoreBase.errorDeadline'))
           .value;
+  Computed<Function> _$reminderPressedComputed;
+
+  @override
+  Function get reminderPressed => (_$reminderPressedComputed ??=
+          Computed<Function>(() => super.reminderPressed,
+              name: '_ReminderStoreBase.reminderPressed'))
+      .value;
 
   final _$remindersAtom = Atom(name: '_ReminderStoreBase.reminders');
 
@@ -142,6 +149,21 @@ mixin _$ReminderStore on _ReminderStoreBase, Store {
     });
   }
 
+  final _$createdInAtom = Atom(name: '_ReminderStoreBase.createdIn');
+
+  @override
+  bool get createdIn {
+    _$createdInAtom.reportRead();
+    return super.createdIn;
+  }
+
+  @override
+  set createdIn(bool value) {
+    _$createdInAtom.reportWrite(value, super.createdIn, () {
+      super.createdIn = value;
+    });
+  }
+
   final _$doneInAtom = Atom(name: '_ReminderStoreBase.doneIn');
 
   @override
@@ -188,6 +210,14 @@ mixin _$ReminderStore on _ReminderStoreBase, Store {
     return _$doneRemindersAsyncAction.run(() => super.doneReminders(reminder));
   }
 
+  final _$createReminderAsyncAction =
+      AsyncAction('_ReminderStoreBase.createReminder');
+
+  @override
+  Future<void> createReminder() {
+    return _$createReminderAsyncAction.run(() => super.createReminder());
+  }
+
   final _$deleteReminderAsyncAction =
       AsyncAction('_ReminderStoreBase.deleteReminder');
 
@@ -231,6 +261,7 @@ number: ${number},
 subjects: ${subjects},
 deadline: ${deadline},
 loading: ${loading},
+createdIn: ${createdIn},
 doneIn: ${doneIn},
 deleteIn: ${deleteIn},
 isValidNumber: ${isValidNumber},
@@ -238,7 +269,8 @@ isValidSubjects: ${isValidSubjects},
 isValidDeadline: ${isValidDeadline},
 errorNumber: ${errorNumber},
 errorSubjects: ${errorSubjects},
-errorDeadline: ${errorDeadline}
+errorDeadline: ${errorDeadline},
+reminderPressed: ${reminderPressed}
     ''';
   }
 }

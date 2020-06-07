@@ -18,6 +18,31 @@ class RemindersApi {
     return reminders;
   }
 
+  static Future<ApiResponse<ReminderModel>> createReminder(String number, String subjects, String deadline) async {
+    String url = "${ApiUrl.baseURL}/reminder";
+    Dio dio = Dio();
+
+    Map params = {
+      "number": int.parse(number),
+      "subjects": subjects,
+      "deadline": deadline,
+    };
+
+    try {
+      Response response = await dio.post(url, data: params);
+      Map mapResponse = response.data;
+      if(response.statusCode == 201){
+        final reminder = ReminderModel.fromJson(mapResponse);
+        return ApiResponse.ok(reminder);
+      }
+    } on DioError catch(e){
+      if(e.response.statusCode == 400){
+        return ApiResponse.error(e.response.data["error"]);
+      }
+    }
+    return null;
+  }
+
   static Future<ApiResponse<ReminderModel>> doneReminder(ReminderModel reminderID) async {
     String url = "${ApiUrl.baseURL}/reminder/${reminderID.id}";
     Dio dio = Dio();

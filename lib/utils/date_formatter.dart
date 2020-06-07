@@ -52,6 +52,8 @@ class DateFormatter {
         timeX = timeLeftOver / 60000;
 
         return "Atraso de ${timeX.round().abs()} minutos";
+      } else {
+        return "Acabou nesse instante";
       }
     }
 
@@ -80,6 +82,8 @@ class DateFormatter {
         timeX = timeLeftOver / 60000;
 
         return "Faltam ${timeX.round()} minutos";
+      } else {
+        return "Acaba a qualquer momento";
       }
     }
   }

@@ -20,6 +20,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
   List<ReminderModel> reminder;
   ReactionDisposer disposer;
   ReactionDisposer deleteDisposer;
+  ReactionDisposer createDisposer;
 
   @override
   void didChangeDependencies() {
@@ -33,6 +34,16 @@ class _ReminderScreenState extends State<ReminderScreen> {
         if(_reminderStore.doneIn){
           _reminderStore.getReminders();
           _reminderStore.doneIn = false;
+        }
+      }
+    );
+
+    createDisposer = reaction((_) => _reminderStore.createdIn, 
+      (createdIn){
+        if(_reminderStore.createdIn){
+          _reminderStore.getReminders();
+          _reminderStore.createdIn = false;
+          Navigator.pop(context);
         }
       }
     );
@@ -147,7 +158,10 @@ class _ReminderScreenState extends State<ReminderScreen> {
                         child: Container(
                           alignment: Alignment.center,
                           child: Text(
-                            DateFormatter.timeLeft(_reminderStore.reminders[index].deadline)
+                            DateFormatter.timeLeft(_reminderStore.reminders[index].deadline),
+                            style: TextStyle(
+                              fontSize: 21
+                            ),
                           ),
                         )
                       )
@@ -179,6 +193,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
   @override
   void dispose() {
     disposer();
+    createDisposer();
     deleteDisposer();
     super.dispose();
   }

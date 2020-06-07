@@ -21,6 +21,8 @@ abstract class _ReminderStoreBase with Store {
   @observable
   bool loading = false;
   @observable
+  bool createdIn = false;
+  @observable
   bool doneIn = false;
   @observable
   bool deleteIn = false;
@@ -51,8 +53,26 @@ abstract class _ReminderStoreBase with Store {
       loading = false;
       doneIn = true;
     } else {
+      loading = false;
       doneIn = false;
     }
+  }
+
+  @action
+  Future<void> createReminder() async {
+    loading = true;
+
+    reminderModel = await RemindersApi.createReminder(number, subjects, deadline);
+
+    if(reminderModel.ok) {
+      loading = false;
+      createdIn = true;
+    } else {
+      loading = false;
+      createdIn = false;
+    }
+
+    loading = false;
   }
 
   @action
@@ -88,6 +108,11 @@ abstract class _ReminderStoreBase with Store {
   String get errorDeadline => 
     !isValidDeadline
     ? "Prazo"
+    : null;
+
+  @computed
+  Function get reminderPressed => isValidNumber && isValidSubjects && isValidDeadline && !loading
+    ? createReminder
     : null;
 
 }
