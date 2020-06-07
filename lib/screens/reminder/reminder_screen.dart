@@ -4,6 +4,7 @@ import 'package:mobx/mobx.dart';
 import 'package:notices/common/custom_drawer/custom_drawer.dart';
 import 'package:notices/common/req_alert.dart';
 import 'package:notices/models/reminder_model.dart';
+import 'package:notices/screens/reminder/reminder_create.dart';
 import 'package:notices/stores/reminder_store.dart';
 import 'package:notices/utils/date_formatter.dart';
 import 'package:provider/provider.dart';
@@ -68,7 +69,11 @@ class _ReminderScreenState extends State<ReminderScreen> {
             return Card(
               child: InkWell(
                 onLongPress: (){
-                  alert(context, "Deseja deletar essa tarefa?", callback: delete);
+                  alert(
+                    context, 
+                    "Deseja deletar a tarefa ${_reminderStore.reminders[index].number}?", 
+                    callback: delete
+                  );
                 },
                 child: Container(
                   height: 100,
@@ -155,6 +160,18 @@ class _ReminderScreenState extends State<ReminderScreen> {
         )
         : Center(child: CircularProgressIndicator());
       }),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueAccent,
+        child: Icon(Icons.add),
+        onPressed: (){
+          Navigator.push(
+            context, 
+            MaterialPageRoute(
+              builder: (context) => ReminderCreate(),
+            )
+          );
+        },
+      ),
       drawer: CustomDrawer(),
     );
   }

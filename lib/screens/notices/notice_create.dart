@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:notices/common/app_text_field/app_text_field.dart';
 import 'package:notices/models/notice_model.dart';
 import 'package:notices/stores/notice_store.dart';
 import 'package:provider/provider.dart';
@@ -59,23 +60,15 @@ class _NoticeCreateState extends State<NoticeCreate> {
           children: <Widget>[
             Observer(
               builder: (_){
-                return TextFormField(
+                return AppTextField(
+                  textAlign: TextAlign.start,
+                  label: "Assunto",
                   controller: tSubjects,
-                  minLines: 1,
-                  maxLines: 10,
+                  errorText: _noticeStore.errorSubjects,
                   keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.done,
+                  prefix: Icon(Icons.note_add),
+                  enabled: true,
                   onChanged: _noticeStore.setSubjects,
-                  decoration: InputDecoration(
-                    labelText: "Assunto",
-                    errorText: _noticeStore.errorSubjects,
-                    labelStyle: TextStyle(
-                      fontSize: 21,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)
-                    )
-                  ),
                 );
               }
             ),
