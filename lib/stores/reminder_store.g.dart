@@ -9,6 +9,49 @@ part of 'reminder_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ReminderStore on _ReminderStoreBase, Store {
+  Computed<bool> _$isValidNumberComputed;
+
+  @override
+  bool get isValidNumber =>
+      (_$isValidNumberComputed ??= Computed<bool>(() => super.isValidNumber,
+              name: '_ReminderStoreBase.isValidNumber'))
+          .value;
+  Computed<bool> _$isValidSubjectsComputed;
+
+  @override
+  bool get isValidSubjects =>
+      (_$isValidSubjectsComputed ??= Computed<bool>(() => super.isValidSubjects,
+              name: '_ReminderStoreBase.isValidSubjects'))
+          .value;
+  Computed<bool> _$isValidDeadlineComputed;
+
+  @override
+  bool get isValidDeadline =>
+      (_$isValidDeadlineComputed ??= Computed<bool>(() => super.isValidDeadline,
+              name: '_ReminderStoreBase.isValidDeadline'))
+          .value;
+  Computed<String> _$errorNumberComputed;
+
+  @override
+  String get errorNumber =>
+      (_$errorNumberComputed ??= Computed<String>(() => super.errorNumber,
+              name: '_ReminderStoreBase.errorNumber'))
+          .value;
+  Computed<String> _$errorSubjectsComputed;
+
+  @override
+  String get errorSubjects =>
+      (_$errorSubjectsComputed ??= Computed<String>(() => super.errorSubjects,
+              name: '_ReminderStoreBase.errorSubjects'))
+          .value;
+  Computed<String> _$errorDeadlineComputed;
+
+  @override
+  String get errorDeadline =>
+      (_$errorDeadlineComputed ??= Computed<String>(() => super.errorDeadline,
+              name: '_ReminderStoreBase.errorDeadline'))
+          .value;
+
   final _$remindersAtom = Atom(name: '_ReminderStoreBase.reminders');
 
   @override
@@ -36,6 +79,51 @@ mixin _$ReminderStore on _ReminderStoreBase, Store {
   set reminderModel(ApiResponse<ReminderModel> value) {
     _$reminderModelAtom.reportWrite(value, super.reminderModel, () {
       super.reminderModel = value;
+    });
+  }
+
+  final _$numberAtom = Atom(name: '_ReminderStoreBase.number');
+
+  @override
+  String get number {
+    _$numberAtom.reportRead();
+    return super.number;
+  }
+
+  @override
+  set number(String value) {
+    _$numberAtom.reportWrite(value, super.number, () {
+      super.number = value;
+    });
+  }
+
+  final _$subjectsAtom = Atom(name: '_ReminderStoreBase.subjects');
+
+  @override
+  String get subjects {
+    _$subjectsAtom.reportRead();
+    return super.subjects;
+  }
+
+  @override
+  set subjects(String value) {
+    _$subjectsAtom.reportWrite(value, super.subjects, () {
+      super.subjects = value;
+    });
+  }
+
+  final _$deadlineAtom = Atom(name: '_ReminderStoreBase.deadline');
+
+  @override
+  String get deadline {
+    _$deadlineAtom.reportRead();
+    return super.deadline;
+  }
+
+  @override
+  set deadline(String value) {
+    _$deadlineAtom.reportWrite(value, super.deadline, () {
+      super.deadline = value;
     });
   }
 
@@ -109,14 +197,48 @@ mixin _$ReminderStore on _ReminderStoreBase, Store {
         .run(() => super.deleteReminder(reminder));
   }
 
+  final _$_ReminderStoreBaseActionController =
+      ActionController(name: '_ReminderStoreBase');
+
+  @override
+  void setNumber(String value) {
+    final _$actionInfo = _$_ReminderStoreBaseActionController.startAction(
+        name: '_ReminderStoreBase.setNumber');
+    try {
+      return super.setNumber(value);
+    } finally {
+      _$_ReminderStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setSubjects(String value) {
+    final _$actionInfo = _$_ReminderStoreBaseActionController.startAction(
+        name: '_ReminderStoreBase.setSubjects');
+    try {
+      return super.setSubjects(value);
+    } finally {
+      _$_ReminderStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 reminders: ${reminders},
 reminderModel: ${reminderModel},
+number: ${number},
+subjects: ${subjects},
+deadline: ${deadline},
 loading: ${loading},
 doneIn: ${doneIn},
-deleteIn: ${deleteIn}
+deleteIn: ${deleteIn},
+isValidNumber: ${isValidNumber},
+isValidSubjects: ${isValidSubjects},
+isValidDeadline: ${isValidDeadline},
+errorNumber: ${errorNumber},
+errorSubjects: ${errorSubjects},
+errorDeadline: ${errorDeadline}
     ''';
   }
 }

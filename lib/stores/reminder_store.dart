@@ -13,11 +13,27 @@ abstract class _ReminderStoreBase with Store {
   @observable
   ApiResponse<ReminderModel> reminderModel;
   @observable
+  String number = "";
+  @observable
+  String subjects = "";
+  @observable
+  String deadline = "";
+  @observable
   bool loading = false;
   @observable
   bool doneIn = false;
   @observable
   bool deleteIn = false;
+
+  @action
+  void setNumber(String value) { 
+    number = value;
+  }
+
+  @action
+  void setSubjects(String value) { 
+    subjects = value;
+  }
 
   @action
   Future<void> getReminders() async {
@@ -46,5 +62,32 @@ abstract class _ReminderStoreBase with Store {
       deleteIn = true;
     }
   }
+
+  @computed
+  bool get isValidNumber => number != "";
+
+  @computed
+  bool get isValidSubjects => subjects.trim().length >= 3;
+
+  @computed
+  bool get isValidDeadline => deadline != "";
+
+  @computed
+  String get errorNumber => 
+    !isValidNumber
+    ? "Número de referência"
+    : null;
+
+  @computed
+  String get errorSubjects => 
+    !isValidSubjects
+    ? "Comente algo"
+    : null;
+
+  @computed
+  String get errorDeadline => 
+    !isValidDeadline
+    ? "Prazo"
+    : null;
 
 }
