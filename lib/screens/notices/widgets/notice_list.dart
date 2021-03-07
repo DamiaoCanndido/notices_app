@@ -24,34 +24,71 @@ class NoticeList extends StatelessWidget {
                 .deleteNotice(n);
           }
 
-          return ListTile(
-            leading: Text(n.number.toString(),
-                style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22)),
-            title: Text(
-              n.subjects,
-              overflow: TextOverflow.ellipsis,
+          return GestureDetector(
+            onTap: () {},
+            onDoubleTap: () {},
+            onLongPress: () {},
+            child: Container(
+              padding: EdgeInsets.all(4),
+              height: 60,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(color: Colors.amber),
+                      child: Text(
+                        n.number.toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Container(
+                      color: Colors.green,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            subtitle: Text(
-              DateFormatter.format(n.createdAt),
-              style: TextStyle(
-                  color: Theme.of(context).primaryColor, fontSize: 10),
-            ),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NoticeCreate(notice: n),
-                  ));
-            },
-            onLongPress: () {
-              alert(context,
-                  "Deseja realmente excluir o ofício ${n.number.toString()}",
-                  callback: delete);
-            },
           );
         });
   }
 }
+
+// ListTile(
+//             leading: Text(n.number.toString(),
+//                 style: TextStyle(
+//                     color: Colors.red,
+//                     fontWeight: FontWeight.bold,
+//                     fontSize: 22)),
+//             title: Text(
+//               n.subjects,
+//               overflow: TextOverflow.ellipsis,
+//             ),
+//             subtitle: Text(
+//               DateFormatter.format(n.createdAt),
+//               style: TextStyle(
+//                   color: Theme.of(context).primaryColor, fontSize: 10),
+//             ),
+//             onTap: () {
+//               Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                     builder: (context) => NoticeCreate(notice: n),
+//                   ));
+//             },
+//             onLongPress: () {
+//               alert(context,
+//                   "Deseja realmente excluir o ofício ${n.number.toString()}",
+//                   callback: delete);
+//             },
+//           );
