@@ -5,6 +5,7 @@ import 'package:notices/screens/notices/notice_create.dart';
 import 'package:notices/stores/notice_store.dart';
 import 'package:notices/utils/date_formatter.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NoticeList extends StatelessWidget {
   @override
@@ -24,9 +25,29 @@ class NoticeList extends StatelessWidget {
                 .deleteNotice(n);
           }
 
+          Future<void> openPdf() async {
+            final String urlPdf = n.url;
+            if (n.url != null) {
+              if (await canLaunch(urlPdf)) {
+                await launch(urlPdf);
+              } else {
+                throw "Not open";
+              }
+            }
+          }
+
           return GestureDetector(
-            onTap: () {},
-            onDoubleTap: () {},
+            onTap: () {
+              openPdf();
+            },
+            onDoubleTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NoticeCreate(notice: n),
+                ),
+              );
+            },
             onLongPress: () {},
             child: Container(
               padding: EdgeInsets.all(4),
@@ -39,12 +60,14 @@ class NoticeList extends StatelessWidget {
                     flex: 1,
                     child: Container(
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(color: Colors.amber),
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(200, 17, 23, 196),
+                      ),
                       child: Text(
                         n.number.toString(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Colors.red,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 22),
                       ),
@@ -53,7 +76,31 @@ class NoticeList extends StatelessWidget {
                   Expanded(
                     flex: 4,
                     child: Container(
-                      color: Colors.green,
+                      color: Color.fromARGB(200, 17, 23, 196),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              child: Text(n.subjects),
+                              padding: EdgeInsets.only(top: 4),
+                              alignment: Alignment.topLeft,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              child: Text(
+                                DateFormatter.format(n.createdAt),
+                                style: TextStyle(
+                                  fontSize: 10,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

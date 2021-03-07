@@ -29,13 +29,12 @@ class MyApp extends StatelessWidget {
         title: 'Notices',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: Color(0xFF000066),
+          scaffoldBackgroundColor: Colors.blue,
+          primaryColor: Colors.blue,
           backgroundColor: Colors.white,
           fontFamily: "Comic Neue",
           textTheme: TextTheme(
-            bodyText2: TextStyle(
-              color: Colors.white
-            ),
+            bodyText2: TextStyle(color: Colors.white),
           ),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
@@ -43,9 +42,7 @@ class MyApp extends StatelessWidget {
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
-        supportedLocales: [
-          Locale('pt', 'BR')
-        ],
+        supportedLocales: [Locale('pt', 'BR')],
         home: BaseScreen(),
       ),
     );
