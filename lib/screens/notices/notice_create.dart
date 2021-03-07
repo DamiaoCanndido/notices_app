@@ -6,7 +6,6 @@ import 'package:notices/stores/notice_store.dart';
 import 'package:provider/provider.dart';
 
 class NoticeCreate extends StatefulWidget {
-
   final NoticeModel notice;
 
   NoticeCreate({this.notice});
@@ -16,7 +15,6 @@ class NoticeCreate extends StatefulWidget {
 }
 
 class _NoticeCreateState extends State<NoticeCreate> {
-
   NoticeStore _noticeStore;
   final tSubjects = TextEditingController();
 
@@ -24,7 +22,7 @@ class _NoticeCreateState extends State<NoticeCreate> {
   void initState() {
     super.initState();
 
-    if(widget.notice != null){
+    if (widget.notice != null) {
       tSubjects.text = widget.notice.subjects;
     }
   }
@@ -34,11 +32,11 @@ class _NoticeCreateState extends State<NoticeCreate> {
     super.didChangeDependencies();
     _noticeStore = Provider.of<NoticeStore>(context);
 
-    if(widget.notice != null){
+    if (widget.notice != null) {
       _noticeStore.subjects = widget.notice.subjects;
       _noticeStore.editNotice = widget.notice;
     }
-    if(widget.notice == null){
+    if (widget.notice == null) {
       _noticeStore.subjects = "";
     }
   }
@@ -46,59 +44,58 @@ class _NoticeCreateState extends State<NoticeCreate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: widget.notice != null 
-          ? Text(widget.notice.number.toString())
-          : Text("Novo ofício"),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Observer(
-              builder: (_){
-                return AppTextField(
-                  textAlign: TextAlign.start,
-                  label: "Assunto",
-                  controller: tSubjects,
-                  errorText: _noticeStore.errorSubjects,
-                  keyboardType: TextInputType.text,
-                  prefix: Icon(Icons.note_add),
-                  enabled: true,
-                  onChanged: _noticeStore.setSubjects,
-                );
-              }
-            ),
-            Observer(builder: (_){
-              return RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(32),
-                ),
-                padding: EdgeInsets.all(10),
-                child: _noticeStore.loading 
-                ? CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Colors.white),
-                )
-                : Text("Salvar",
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white
-                  ),
-                ),
-                color: Theme.of(context).primaryColor,
-                disabledColor: Color.fromARGB(100, 0, 0, 102),
-                onPressed: widget.notice != null 
-                  ? _noticeStore.subjectPressedEdit
-                  : _noticeStore.subjectPressed
-              );
-            })
-          ],
+        appBar: AppBar(
+          title: widget.notice != null
+              ? Text(widget.notice.number.toString())
+              : Text("Novo ofício"),
+          centerTitle: true,
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Observer(builder: (_) {
+                  return AppTextField(
+                    textAlign: TextAlign.start,
+                    label: "Assunto",
+                    controller: tSubjects,
+                    errorText: _noticeStore.errorSubjects,
+                    keyboardType: TextInputType.text,
+                    enabled: true,
+                    onChanged: _noticeStore.setSubjects,
+                  );
+                }),
+                SizedBox(
+                  height: 32,
+                ),
+                Observer(builder: (_) {
+                  return RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32),
+                      ),
+                      padding: EdgeInsets.all(10),
+                      child: _noticeStore.loading
+                          ? CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(Colors.white),
+                            )
+                          : Text(
+                              "Salvar",
+                              style:
+                                  TextStyle(fontSize: 25, color: Colors.white),
+                            ),
+                      color: Theme.of(context).primaryColor,
+                      disabledColor: Color.fromARGB(100, 0, 0, 102),
+                      onPressed: widget.notice != null
+                          ? _noticeStore.subjectPressedEdit
+                          : _noticeStore.subjectPressed);
+                })
+              ],
+            ),
+          ),
+        ));
   }
 
   @override

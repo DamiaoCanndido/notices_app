@@ -9,52 +9,49 @@ import 'package:provider/provider.dart';
 class NoticeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     final NoticeStore _noticeStore = Provider.of<NoticeStore>(context);
     List<NoticeModel> notices = _noticeStore.notices;
 
     return ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: _noticeStore.notices.length,
-      itemBuilder: (context, index){
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: _noticeStore.notices.length,
+        itemBuilder: (context, index) {
+          NoticeModel n = notices[index];
 
-        NoticeModel n = notices[index];
+          void delete() async {
+            await Provider.of<NoticeStore>(context, listen: false)
+                .deleteNotice(n);
+          }
 
-        void delete() async {
-          await Provider.of<NoticeStore>(context, listen: false).deleteNotice(n);
-        }
-
-        return ListTile(
-          leading: Text(
-            n.number.toString(),
-            style: TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold,
-              fontSize: 22
-            )
-          ),
-          title: Text(
-            n.subjects,
-            overflow: TextOverflow.ellipsis,
-          ),
-          trailing: Text( 
-            DateFormatter.format(n.createdAt),
-            style: TextStyle(color: Theme.of(context).primaryColor),
-          ),
-          onTap: (){
-            Navigator.push(
-              context, 
-              MaterialPageRoute(
-                builder: (context) => NoticeCreate(notice: n),
-              )
-            );
-          },
-          onLongPress: (){
-            alert(context, "Deseja realmente excluir o ofício ${n.number.toString()}", callback: delete);
-          },
-        );
-      }
-    );
+          return ListTile(
+            leading: Text(n.number.toString(),
+                style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22)),
+            title: Text(
+              n.subjects,
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: Text(
+              DateFormatter.format(n.createdAt),
+              style: TextStyle(
+                  color: Theme.of(context).primaryColor, fontSize: 10),
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NoticeCreate(notice: n),
+                  ));
+            },
+            onLongPress: () {
+              alert(context,
+                  "Deseja realmente excluir o ofício ${n.number.toString()}",
+                  callback: delete);
+            },
+          );
+        });
   }
 }
