@@ -7,41 +7,26 @@ import 'package:provider/provider.dart';
 class ListSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     final DrawerStore _drawerStore = Provider.of<DrawerStore>(context);
 
-    void _setPage(int page){
+    void _setPage(int page) {
       Navigator.of(context).pop();
       _drawerStore.setPageIndex(page);
     }
 
-    return Observer(
-      builder: (_) {
-        return Column(
-          children: <Widget>[
-            IconTile(
-              "Ofícios", 
-              Icons.view_list, 
-              (){
-                _setPage(0);
-              }, 
-              _drawerStore.pageIndex == 0
-              ? true
-              : false,
-            ),
-            IconTile(
-              "Prazos",
-              Icons.games, 
-              (){
-                _setPage(1);
-              }, 
-              _drawerStore.pageIndex == 1
-              ? true
-              : false,
-            ),
-          ],
-        );
-      }
-    );
+    return Observer(builder: (_) {
+      return Column(
+        children: <Widget>[
+          IconTile(
+            "Ofícios",
+            Icons.view_list,
+            () {
+              _setPage(0);
+            },
+            _drawerStore.pageIndex == 0 ? true : false,
+          ),
+        ],
+      );
+    });
   }
 }

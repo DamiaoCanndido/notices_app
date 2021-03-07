@@ -37,7 +37,6 @@ class _BaseScreenState extends State<BaseScreen> {
         controller: _pageController,
         children: <Widget>[
           NoticeScreen(),
-          ReminderScreen(),
         ],
       ),
     );

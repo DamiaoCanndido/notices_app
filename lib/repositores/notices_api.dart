@@ -11,11 +11,9 @@ class NoticesApi {
     Response response = await dio.get(url);
     List noticesData = response.data;
 
-    List<NoticeModel> notices = noticesData
-      .map<NoticeModel>((e) => NoticeModel
-      .fromJson(e)).toList();
+    List<NoticeModel> notices =
+        noticesData.map<NoticeModel>((e) => NoticeModel.fromJson(e)).toList();
 
-    print(notices);
     return notices;
   }
 
@@ -23,42 +21,39 @@ class NoticesApi {
     String url = "${ApiUrl.baseURL}/create";
     Dio dio = Dio();
 
-    Map params = {
-      "subjects": subjects
-    };
+    Map params = {"subjects": subjects};
 
     try {
       Response response = await dio.post(url, data: params);
       Map mapResponse = response.data;
-      if(response.statusCode == 201){
+      if (response.statusCode == 201) {
         final notice = NoticeModel.fromJson(mapResponse);
         return ApiResponse.ok(notice);
       }
-    } on DioError catch(e){
-      if(e.response.statusCode == 400){
+    } on DioError catch (e) {
+      if (e.response.statusCode == 400) {
         return ApiResponse.error(e.response.data["error"]);
       }
     }
     return null;
   }
 
-  static Future<ApiResponse<NoticeModel>> editNotice(NoticeModel notice, String subjects) async {
+  static Future<ApiResponse<NoticeModel>> editNotice(
+      NoticeModel notice, String subjects) async {
     String url = "${ApiUrl.baseURL}/update/${notice.id}";
     Dio dio = Dio();
 
-    Map params = {
-      "subjects": subjects
-    };
+    Map params = {"subjects": subjects};
 
     try {
       Response response = await dio.put(url, data: params);
       Map mapResponse = response.data;
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         final notice = NoticeModel.fromJson(mapResponse);
         return ApiResponse.ok(notice);
       }
-    } on DioError catch(e){
-      if(e.response.statusCode == 400){
+    } on DioError catch (e) {
+      if (e.response.statusCode == 400) {
         return ApiResponse.error(e.response.data["error"]);
       }
     }
@@ -72,8 +67,8 @@ class NoticesApi {
     try {
       await dio.delete(url);
       return ApiResponse.ok(true);
-    } on DioError catch(e){
-      if(e.response.statusCode == 404){
+    } on DioError catch (e) {
+      if (e.response.statusCode == 404) {
         return e.response.data["error"];
       }
     }
