@@ -48,7 +48,13 @@ class NoticeList extends StatelessWidget {
                 ),
               );
             },
-            onLongPress: () {},
+            onLongPress: () {
+              alert(
+                context,
+                "Deseja realmente excluir o ofício ${n.number.toString()}",
+                callback: delete,
+              );
+            },
             child: Container(
               padding: EdgeInsets.all(4),
               height: 60,

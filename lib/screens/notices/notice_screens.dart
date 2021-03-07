@@ -116,14 +116,18 @@ class _NoticeScreenState extends State<NoticeScreen> {
       ),
       drawer: CustomDrawer(),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blueAccent,
-        child: Icon(Icons.add),
+        backgroundColor: Colors.white,
+        child: Icon(
+          Icons.note_add_outlined,
+          color: Colors.blue[900],
+        ),
         onPressed: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NoticeCreate(),
-              ));
+            context,
+            MaterialPageRoute(
+              builder: (context) => NoticeCreate(),
+            ),
+          );
         },
       ),
     );

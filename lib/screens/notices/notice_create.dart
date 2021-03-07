@@ -60,6 +60,7 @@ class _NoticeCreateState extends State<NoticeCreate> {
                 Observer(builder: (_) {
                   return AppTextField(
                     textAlign: TextAlign.start,
+                    style: TextStyle(color: Colors.white),
                     label: "Assunto",
                     controller: tSubjects,
                     errorText: _noticeStore.errorSubjects,
@@ -86,7 +87,7 @@ class _NoticeCreateState extends State<NoticeCreate> {
                               style:
                                   TextStyle(fontSize: 25, color: Colors.white),
                             ),
-                      color: Theme.of(context).primaryColor,
+                      color: Color(0xff000066),
                       disabledColor: Color.fromARGB(100, 0, 0, 102),
                       onPressed: widget.notice != null
                           ? _noticeStore.subjectPressedEdit

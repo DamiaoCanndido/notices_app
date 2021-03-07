@@ -34,9 +34,9 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      cursorColor: Colors.white,
       keyboardType: keyboardType,
       maxLines: 10,
-
       obscureText: password,
       textAlign: textAlign,
       style: style,
@@ -45,14 +45,35 @@ class AppTextField extends StatelessWidget {
       inputFormatters: inputFormatters,
       controller: controller,
       decoration: InputDecoration(
-          labelText: label,
-          errorText: errorText,
-          prefixIcon: prefix,
-          suffixIcon: suffix,
-          labelStyle: TextStyle(
-            fontSize: 21,
+        hintStyle: TextStyle(color: Colors.white),
+        labelText: label,
+        errorText: errorText,
+        prefixIcon: prefix,
+        suffixIcon: suffix,
+        labelStyle: TextStyle(
+          fontSize: 21,
+          color: Colors.white,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(
+            color: Colors.white,
           ),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20))),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: BorderSide(
+            color: Colors.white,
+            width: 2.0,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: BorderSide(
+            color: Colors.white,
+          ),
+        ),
+      ),
       enabled: enabled, // Modificar
       onChanged: onChanged,
     );
