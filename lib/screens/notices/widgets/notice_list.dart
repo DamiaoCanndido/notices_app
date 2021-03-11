@@ -67,7 +67,9 @@ class NoticeList extends StatelessWidget {
                     child: Container(
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(200, 17, 23, 196),
+                        color: n.url != null
+                            ? Color.fromARGB(200, 17, 23, 196)
+                            : Color.fromARGB(100, 255, 0, 0),
                       ),
                       child: Text(
                         n.number.toString(),
@@ -82,7 +84,9 @@ class NoticeList extends StatelessWidget {
                   Expanded(
                     flex: 4,
                     child: Container(
-                      color: Color.fromARGB(200, 17, 23, 196),
+                      color: n.url != null
+                          ? Color.fromARGB(200, 17, 23, 196)
+                          : Color.fromARGB(100, 255, 0, 0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
